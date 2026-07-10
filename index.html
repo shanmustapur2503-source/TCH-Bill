@@ -227,7 +227,7 @@
         }
 
         .print-area {
-            width: 750px; /* Refined to map gracefully to standard A4 printable widths */
+            width: 680px; /* Scaled cleanly to completely fit horizontally within A4 with margins */
             font-family: Arial, sans-serif;
             color: #000;
             background: #fff;
@@ -238,12 +238,14 @@
         .invoice-table {
             width: 100%;
             border-collapse: collapse;
+            table-layout: fixed; /* Enforces absolute adherence to width percentages */
         }
 
         .invoice-table th, .invoice-table td {
             border: 1px solid #000;
             padding: 8px 6px;
             font-size: 13px;
+            word-wrap: break-word;
         }
 
         .text-center { text-align: center; }
@@ -359,11 +361,11 @@
             <table class="invoice-table" style="border-top:none; margin-top: -1px;">
                 <thead class="bg-gray">
                     <tr>
-                        <th style="width: 8%;">Sr. No.</th>
-                        <th style="width: 48%;">Description</th>
+                        <th style="width: 10%;">Sr. No.</th>
+                        <th style="width: 44%;">Description</th>
                         <th style="width: 12%;">HSN ACS</th>
-                        <th style="width: 10%;">Qty./Kg.</th>
-                        <th style="width: 10%;">Rate</th>
+                        <th style="width: 11%;">Qty./Kg.</th>
+                        <th style="width: 11%;">Rate</th>
                         <th style="width: 12%;">Amount</th>
                     </tr>
                 </thead>
@@ -374,7 +376,7 @@
                     <td class="text-right" id="pdfTotalAmount" style="font-weight:bold;">0.00</td>
                 </tr>
                 <tr>
-                    <td colspan="3" style="vertical-align: top; height:55px; font-size: 12px; line-height: 1.4; border-bottom: none;">
+                    <td colspan="3" style="vertical-align: top; height:65px; font-size: 12px; line-height: 1.4; border-bottom: none;">
                         <b>Bank Details:</b><br>
                         Bank: Bank of Maharashtra<br>
                         A/c No.: 68022014402<br>
@@ -505,7 +507,7 @@
             document.getElementById('pdfTotalAmount').innerText = runningTotal.toLocaleString('en-IN', {minimumFractionDigits: 2});
 
             let rowsHtml = '';
-            for(let i = 0; i < 13; i++) {
+            for(let i = 0; i < 7; i++) {
                 if(i < items.length) {
                     rowsHtml += `
                         <tr>
@@ -536,7 +538,7 @@
             const element = document.getElementById('print-node');
             
             const options = {
-                margin:       [12, 12, 12, 12], // Configured margins directly here to create clean framing inside standard A4 output
+                margin:       15, // Uniform standard 15mm page margin layout
                 filename:     `Invoice_${billNo}.pdf`,
                 image:        { type: 'jpeg', quality: 0.98 },
                 html2canvas:  { scale: 2, useCORS: true, logging: false },
