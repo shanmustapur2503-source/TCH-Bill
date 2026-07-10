@@ -221,17 +221,26 @@
             background-color: var(--primary-hover);
         }
 
-        /* --- PRINT AREA CANVAS (Kept perfectly isolated out of view from UI screens) --- */
+        /* --- PRINT AREA CANVAS (Calibrated for Perfect A4 Standard Output) --- */
         #invoice-template-hidden {
             display: none;
         }
 
         .print-area {
-            width: 710px;
+            width: 790px; /* Optimal standard rendering viewport width for explicit A4 mapping scale */
             font-family: Arial, sans-serif;
             color: #000;
             background: #fff;
-            padding: 15px;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+
+        /* Outer Boundary Frame Border for Receipt Appearance */
+        .bill-border-wrapper {
+            border: 2px solid #000;
+            padding: 12px;
+            background: #fff;
+            width: 100%;
             box-sizing: border-box;
         }
 
@@ -242,14 +251,14 @@
 
         .invoice-table th, .invoice-table td {
             border: 1px solid #000;
-            padding: 6px;
-            font-size: 12px;
+            padding: 8px 6px;
+            font-size: 13px;
         }
 
         .text-center { text-align: center; }
         .text-right { text-align: right; }
         .bg-gray { background-color: #F2F2F2; }
-        .header-title { font-size: 22px; font-weight: bold; }
+        .header-title { font-size: 24px; font-weight: bold; }
         .subtitle { font-size: 14px; font-weight: bold; }
         
         .meta-container {
@@ -260,12 +269,13 @@
 
         .meta-box {
             border: 1px solid #000;
-            padding: 6px;
-            font-size: 12px;
-            min-height: 85px;
+            padding: 8px;
+            font-size: 13px;
+            min-height: 95px;
+            line-height: 1.4;
         }
 
-        .item-empty-row td { height: 22px; }
+        .item-empty-row td { height: 26px; }
     </style>
 </head>
 <body>
@@ -316,83 +326,85 @@
 
     <div id="invoice-template-hidden">
         <div class="print-area" id="print-node">
-            <table class="invoice-table">
-                <tr>
-                    <td colspan="5" class="text-center" style="border-bottom:none; padding-bottom:2px;">
-                        <span class="header-title">The Cake House</span>
-                    </td>
-                    <td class="text-right" style="border-bottom:none; font-size:10px; vertical-align:top;">
-                        Mob.: 8830002886
-                    </td>
-                </tr>
-                <tr>
-                    <td colspan="6" class="text-center" style="border-top:none; border-bottom:none; font-size:12px; padding:2px;">
-                        Kalewadi Main Road, Opp. D-Mart, Near Nadhe Complex, Kalewadi, Pimpri, Pune - 411 017.
-                    </td>
-                </tr>
-                <tr>
-                    <td colspan="6" class="text-center" style="border-top:none; font-weight:bold; font-size:12px; padding-top:2px;">
-                        GST No.: NA
-                    </td>
-                </tr>
-                <tr>
-                    <td colspan="6" class="text-center bg-gray subtitle" style="padding:5px;">BILL OF SUPPLY</td>
-                </tr>
-            </table>
-
-            <div class="meta-container">
-                <div class="meta-box" style="border-right:none;">
-                    Reverse Charge : <br>
-                    <b id="pdfBillNo">Bill of Supply No.: </b><br>
-                    <b id="pdfDate">Date: </b><br>
-                    State : Maharashtra &nbsp;&nbsp;&nbsp;&nbsp;Code : 411017
-                </div>
-                <div class="meta-box">
-                    <b>Details of Consignee / Shipped to</b><br>
-                    <b id="pdfName">Name: </b><br>
-                    <span id="pdfAddr">Address: </span><br>
-                    <b>GSTIN: </b>
-                </div>
-            </div>
-
-            <table class="invoice-table" style="border-top:none;">
-                <thead class="bg-gray">
+            <div class="bill-border-wrapper">
+                <table class="invoice-table">
                     <tr>
-                        <th style="width: 8%;">Sr. No.</th>
-                        <th style="width: 48%;">Description</th>
-                        <th style="width: 12%;">HSN ACS</th>
-                        <th style="width: 10%;">Qty./Kg.</th>
-                        <th style="width: 10%;">Rate</th>
-                        <th style="width: 12%;">Amount</th>
+                        <td colspan="5" class="text-center" style="border-bottom:none; padding-bottom:2px;">
+                            <span class="header-title">The Cake House</span>
+                        </td>
+                        <td class="text-right" style="border-bottom:none; font-size:11px; vertical-align:top; font-weight: bold;">
+                            Mob.: 8830002886
+                        </td>
                     </tr>
-                </thead>
-                <tbody id="pdfItemRows"></tbody>
-                <tr>
-                    <td colspan="4" id="pdfAmountWords" style="font-style: italic; font-size:11px;">Rs. in Words: </td>
-                    <td class="text-right" style="font-weight:bold;">TOTAL:</td>
-                    <td class="text-right" id="pdfTotalAmount" style="font-weight:bold;">0.00</td>
-                </tr>
-                <tr>
-                    <td colspan="3" style="vertical-align: top; height:45px; font-size: 11px; line-height: 1.4;">
-                        <b>Bank Details:</b><br>
-                        Bank: Bank of Maharashtra<br>
-                        A/c No.: 68022014402<br>
-                        Branch: Pimpri.<br>
-                        IFSC CODE: MAHB0000080
-                    </td>
-                    <td colspan="3" class="text-right" style="vertical-align: top;">
-                        <b>For THE CAKE HOUSE</b>
-                    </td>
-                </tr>
-                <tr>
-                    <td colspan="3" class="text-center" style="vertical-align: bottom; height:50px; font-style:italic; font-size:11px;">
-                        Receiver's Signature
-                    </td>
-                    <td colspan="3" class="text-right" style="vertical-align: bottom; font-weight:bold;">
-                        Proprietor: Rohan K
-                    </td>
-                </tr>
-            </table>
+                    <tr>
+                        <td colspan="6" class="text-center" style="border-top:none; border-bottom:none; font-size:13px; padding:2px;">
+                            Kalewadi Main Road, Opp. D-Mart, Near Nadhe Complex, Kalewadi, Pimpri, Pune - 411 017.
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="6" class="text-center" style="border-top:none; font-weight:bold; font-size:13px; padding-top:2px;">
+                            GST No.: NA
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="6" class="text-center bg-gray subtitle" style="padding:6px; border-top: 1px solid #000; border-bottom: 1px solid #000;">BILL OF SUPPLY</td>
+                    </tr>
+                </table>
+
+                <div class="meta-container" style="margin-top: -1px;">
+                    <div class="meta-box" style="border-right:none; border-top: none;">
+                        Reverse Charge : <br>
+                        <b id="pdfBillNo">Bill of Supply No.: </b><br>
+                        <b id="pdfDate">Date: </b><br>
+                        State : Maharashtra &nbsp;&nbsp;&nbsp;&nbsp;Code : 411017
+                    </div>
+                    <div class="meta-box" style="border-top: none;">
+                        <b>Details of Consignee / Shipped to</b><br>
+                        <b id="pdfName">Name: </b><br>
+                        <span id="pdfAddr">Address: </span><br>
+                        <b>GSTIN: </b>
+                    </div>
+                </div>
+
+                <table class="invoice-table" style="border-top:none; margin-top: -1px;">
+                    <thead class="bg-gray">
+                        <tr>
+                            <th style="width: 8%;">Sr. No.</th>
+                            <th style="width: 48%;">Description</th>
+                            <th style="width: 12%;">HSN ACS</th>
+                            <th style="width: 10%;">Qty./Kg.</th>
+                            <th style="width: 10%;">Rate</th>
+                            <th style="width: 12%;">Amount</th>
+                        </tr>
+                    </thead>
+                    <tbody id="pdfItemRows"></tbody>
+                    <tr>
+                        <td colspan="4" id="pdfAmountWords" style="font-style: italic; font-size:12px;">Rs. in Words: </td>
+                        <td class="text-right" style="font-weight:bold;">TOTAL:</td>
+                        <td class="text-right" id="pdfTotalAmount" style="font-weight:bold;">0.00</td>
+                    </tr>
+                    <tr>
+                        <td colspan="3" style="vertical-align: top; height:55px; font-size: 12px; line-height: 1.4; border-bottom: none;">
+                            <b>Bank Details:</b><br>
+                            Bank: Bank of Maharashtra<br>
+                            A/c No.: 68022014402<br>
+                            Branch: Pimpri.<br>
+                            IFSC CODE: MAHB0000080
+                        </td>
+                        <td colspan="3" class="text-right" style="vertical-align: top; border-bottom: none;">
+                            <b>For THE CAKE HOUSE</b>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="3" class="text-center" style="vertical-align: bottom; height:55px; font-style:italic; font-size:12px; border-top: none;">
+                            Receiver's Signature
+                        </td>
+                        <td colspan="3" class="text-right" style="vertical-align: bottom; font-weight:bold; border-top: none;">
+                            Proprietor: Rohan K
+                        </td>
+                    </tr>
+                </table>
+            </div>
         </div>
     </div>
 
@@ -411,7 +423,6 @@
             updateCalculations();
         };
 
-        // Added clean validation preview label inside row element wrapper blocks
         function addDynamicRow() {
             const container = document.getElementById('dynamic-items-container');
             const div = document.createElement('div');
@@ -473,7 +484,6 @@
             return "Rs. " + str.trim().replace(/\s+/g, ' ') + " Only";
         }
 
-        // Processes arrays and maps live validation calculations onto individual view cards dynamically
         function updateCalculations() {
             runningTotal = 0.0;
             const rows = document.querySelectorAll('.dynamic-item-row');
@@ -485,7 +495,6 @@
                 const rate = parseFloat(row.querySelector('.item-rate').value) || 0;
                 const amt = qty * rate;
                 
-                // Directly inject local total inside targeted block container element row
                 row.querySelector('.row-total-verification').innerText = `Item Total: ₹${amt.toFixed(2)}`;
                 
                 if(desc || qty > 0 || rate > 0) {
@@ -494,10 +503,8 @@
                 }
             });
 
-            // Update bottom sticky panel array viewports
             document.getElementById('totalPreview').innerHTML = `<b>Total Invoice Value:</b> ₹${runningTotal.toLocaleString('en-IN', {minimumFractionDigits: 2})} <br><span style="color:var(--muted); font-size: 12px; font-style: italic;">${amountToWordsINR(runningTotal)}</span>`;
             
-            // Map values directly to hidden layout structural items
             document.getElementById('pdfBillNo').innerText = `Bill of Supply No.: ${document.getElementById('billNo').value}`;
             
             const dateParts = document.getElementById('billDate').value.split('-');
@@ -508,7 +515,6 @@
             document.getElementById('pdfAmountWords').innerText = `Rs. in Words: ${amountToWordsINR(runningTotal)}`;
             document.getElementById('pdfTotalAmount').innerText = runningTotal.toLocaleString('en-IN', {minimumFractionDigits: 2});
 
-            // Regenerate table array mappings safely inside isolated frame layout structures
             let rowsHtml = '';
             for(let i = 0; i < 13; i++) {
                 if(i < items.length) {
@@ -539,11 +545,13 @@
             }
 
             const element = document.getElementById('print-node');
+            
+            // Adjusted options specifically tailored to eliminate spacing margins and handle custom outer receipt borders neatly on A4 paper
             const options = {
-                margin:       [10, 10, 10, 10],
+                margin:       0, // Zero margin inside canvas initialization to leverage full page grid space cleanly
                 filename:     `Invoice_${billNo}.pdf`,
                 image:        { type: 'jpeg', quality: 0.98 },
-                html2canvas:  { scale: 2, useCORS: true },
+                html2canvas:  { scale: 2, useCORS: true, logging: false },
                 jsPDF:        { unit: 'mm', format: 'a4', orientation: 'portrait' }
             };
 
