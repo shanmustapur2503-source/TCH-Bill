@@ -1,0 +1,548 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Cake House Terminal Pro</title>
+    <meta property="og:title" content="The Cake House Terminal Pro" />
+    <meta property="og:description" content="Advanced Billing System for The Cake House" />
+    <meta property="og:type" content="website" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+    <style>
+        :root {
+            --primary: #BE123C;
+            --primary-hover: #9F1239;
+            --bg: #F8FAFC;
+            --card-bg: #FFFFFF;
+            --border: #E2E8F0;
+            --text: #0F172A;
+            --muted: #64748B;
+        }
+
+        body {
+            font-family: 'Segoe UI', system-ui, sans-serif;
+            background-color: var(--bg);
+            color: var(--text);
+            margin: 0;
+            padding: 0;
+            display: flex;
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        /* Split-Screen Workspace Architecture */
+        .workspace {
+            display: flex;
+            width: 100%;
+            height: 100%;
+        }
+
+        .input-panel {
+            flex: 1.2;
+            padding: 40px;
+            overflow-y: auto;
+            border-right: 1px solid var(--border);
+            background: var(--card-bg);
+        }
+
+        .preview-panel {
+            flex: 1;
+            padding: 40px;
+            background: #E2E8F0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            overflow-y: auto;
+        }
+
+        h1 {
+            font-size: 24px;
+            font-weight: 700;
+            color: var(--text);
+            margin-top: 0;
+            margin-bottom: 30px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .section-title {
+            font-size: 14px;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            color: var(--muted);
+            margin: 25px 0 15px 0;
+            border-bottom: 1px solid var(--border);
+            padding-bottom: 5px;
+        }
+
+        .row {
+            display: flex;
+            gap: 16px;
+            margin-bottom: 16px;
+        }
+
+        .col {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        label {
+            font-weight: 600;
+            margin-bottom: 6px;
+            font-size: 13px;
+            color: #475569;
+        }
+
+        input {
+            padding: 10px 14px;
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            font-size: 14px;
+            transition: all 0.2s ease;
+            background: #FFF;
+        }
+
+        input:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(190, 18, 60, 0.15);
+        }
+
+        /* Dynamic Grid Layout */
+        .item-grid-header {
+            display: grid;
+            grid-template-columns: 3.5fr 1fr 1.2fr 0.5fr;
+            gap: 12px;
+            margin-bottom: 8px;
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--muted);
+        }
+
+        .dynamic-item-row {
+            display: grid;
+            grid-template-columns: 3.5fr 1fr 1.2fr 0.5fr;
+            gap: 12px;
+            align-items: center;
+            margin-bottom: 10px;
+            animation: fadeIn 0.2s ease-in-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(5px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .btn-secondary {
+            background: #F1F5F9;
+            color: #334155;
+            border: 1px solid var(--border);
+            padding: 10px;
+            font-weight: 600;
+            font-size: 13px;
+            border-radius: 6px;
+            cursor: pointer;
+            width: max-content;
+            margin-top: 5px;
+            transition: all 0.2s;
+        }
+
+        .btn-secondary:hover {
+            background: #E2E8F0;
+        }
+
+        .btn-danger {
+            background: none;
+            border: none;
+            color: #EF4444;
+            cursor: pointer;
+            font-size: 16px;
+            padding: 8px;
+            border-radius: 4px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .btn-danger:hover {
+            background: #FEE2E2;
+        }
+
+        .sticky-summary {
+            background: #FFF1F2;
+            border: 1px solid #FFE4E6;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 30px 0;
+        }
+
+        .action-button {
+            background-color: var(--primary);
+            color: white;
+            border: none;
+            padding: 14px;
+            font-size: 16px;
+            font-weight: 600;
+            border-radius: 6px;
+            cursor: pointer;
+            width: 100%;
+            transition: background 0.2s;
+            box-shadow: 0 4px 6px -1px rgba(190, 18, 60, 0.2);
+        }
+
+        .action-button:hover {
+            background-color: var(--primary-hover);
+        }
+
+        /* --- PREVIEW AND PRINT SPECIFIC STYLING --- */
+        .preview-label {
+            align-self: flex-start;
+            font-weight: bold;
+            color: #475569;
+            margin-bottom: 10px;
+            font-size: 14px;
+            text-transform: uppercase;
+        }
+
+        #invoice-wrapper {
+            background: white;
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+            transform: scale(0.9);
+            transform-origin: top center;
+        }
+
+        .print-area {
+            width: 710px;
+            font-family: Arial, sans-serif;
+            color: #000;
+            background: #fff;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+
+        .invoice-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .invoice-table th, .invoice-table td {
+            border: 1px solid #000;
+            padding: 6px;
+            font-size: 12px;
+        }
+
+        .text-center { text-align: center; }
+        .text-right { text-align: right; }
+        .bg-gray { background-color: #F2F2F2; }
+        .header-title { font-size: 22px; font-weight: bold; }
+        .subtitle { font-size: 14px; font-weight: bold; }
+        
+        .meta-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            width: 100%;
+        }
+
+        .meta-box {
+            border: 1px solid #000;
+            padding: 6px;
+            font-size: 12px;
+            min-height: 85px;
+        }
+
+        .item-empty-row td { height: 22px; }
+    </style>
+</head>
+<body>
+
+    <div class="workspace">
+        <!-- Interactive Input Panel -->
+        <div class="input-panel">
+            <h1>🎂 The Cake House Terminal Pro</h1>
+            
+            <div class="section-title">Invoice Meta Details</div>
+            <div class="row">
+                <div class="col">
+                    <label>Bill No.</label>
+                    <input type="text" id="billNo" oninput="updateLivePreview()">
+                </div>
+                <div class="col">
+                    <label>Date</label>
+                    <input type="date" id="billDate" oninput="updateLivePreview()">
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col">
+                    <label>Customer Name</label>
+                    <input type="text" id="custName" placeholder="Enter name" oninput="updateLivePreview()">
+                </div>
+            </div>
+            <div class="row">
+                <div class="col">
+                    <label>Customer Address</label>
+                    <input type="text" id="custAddress" placeholder="Enter delivery address" oninput="updateLivePreview()">
+                </div>
+            </div>
+
+            <div class="section-title">Dynamic Line Items</div>
+            <div class="item-grid-header">
+                <div>Description</div>
+                <div>Qty</div>
+                <div>Rate (₹)</div>
+                <div></div>
+            </div>
+            
+            <div id="dynamic-items-container">
+                <!-- Rows injected dynamically via JS initialization below -->
+            </div>
+
+            <button type="button" class="btn-secondary" onclick="addDynamicRow()">➕ Add New Line Item</button>
+
+            <div class="sticky-summary">
+                <div id="totalPreview" style="font-size: 16px; color: var(--text);">
+                    <b>Total Preview:</b> ₹0.00 <br><small style="color: var(--muted)">Rs. Zero Only</small>
+                </div>
+            </div>
+
+            <button class="action-button" onclick="processInvoice()">🚀 Process Invoice & Download PDF</button>
+        </div>
+
+        <!-- Real-Time Visual Feedback Side Drawer -->
+        <div class="preview-panel">
+            <div class="preview-label">Live A4 Document Preview</div>
+            <div id="invoice-wrapper">
+                <div class="print-area" id="print-node">
+                    <table class="invoice-table">
+                        <tr>
+                            <td colspan="5" class="text-center" style="border-bottom:none; padding-bottom:2px;">
+                                <span class="header-title">The Cake House</span>
+                            </td>
+                            <td class="text-right" style="border-bottom:none; font-size:10px; vertical-align:top;">
+                                Mob.: 8830002886
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan="6" class="text-center" style="border-top:none; border-bottom:none; font-size:12px; padding:2px;">
+                                Kalewadi Main Road, Opp. D-Mart, Near Nadhe Complex, Kalewadi, Pimpri, Pune - 411 017.
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan="6" class="text-center" style="border-top:none; font-weight:bold; font-size:12px; padding-top:2px;">
+                                GST No.: NA
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan="6" class="text-center bg-gray subtitle" style="padding:5px;">BILL OF SUPPLY</td>
+                        </tr>
+                    </table>
+
+                    <div class="meta-container">
+                        <div class="meta-box" style="border-right:none;">
+                            Reverse Charge : <br>
+                            <b id="pdfBillNo">Bill of Supply No.: </b><br>
+                            <b id="pdfDate">Date: </b><br>
+                            State : Maharashtra &nbsp;&nbsp;&nbsp;&nbsp;Code : 411017
+                        </div>
+                        <div class="meta-box">
+                            <b>Details of Consignee / Shipped to</b><br>
+                            <b id="pdfName">Name: </b><br>
+                            <span id="pdfAddr">Address: </span><br>
+                            <b>GSTIN: </b>
+                        </div>
+                    </div>
+
+                    <table class="invoice-table" style="border-top:none;">
+                        <thead class="bg-gray">
+                            <tr>
+                                <th style="width: 8%;">Sr. No.</th>
+                                <th style="width: 48%;">Description</th>
+                                <th style="width: 12%;">HSN ACS</th>
+                                <th style="width: 10%;">Qty./Kg.</th>
+                                <th style="width: 10%;">Rate</th>
+                                <th style="width: 12%;">Amount</th>
+                            </tr>
+                        </thead>
+                        <tbody id="pdfItemRows"></tbody>
+                        <tr>
+                            <td colspan="4" id="pdfAmountWords" style="font-style: italic; font-size:11px;">Rs. in Words: </td>
+                            <td class="text-right" style="font-weight:bold;">TOTAL:</td>
+                            <td class="text-right" id="pdfTotalAmount" style="font-weight:bold;">0.00</td>
+                        </tr>
+                        <tr>
+                            <td colspan="3" style="vertical-align: top; height:45px; font-size: 11px; line-height: 1.4;">
+                                <b>Bank Details:</b><br>
+                                Bank: Bank of Maharashtra<br>
+                                A/c No.: 68022014402<br>
+                                Branch: Pimpri.<br>
+                                IFSC CODE: MAHB0000080
+                            </td>
+                            <td colspan="3" class="text-right" style="vertical-align: top;">
+                                <b>For THE CAKE HOUSE</b>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan="3" class="text-center" style="vertical-align: bottom; height:50px; font-style:italic; font-size:11px;">
+                                Receiver's Signature
+                            </td>
+                            <td colspan="3" class="text-right" style="vertical-align: bottom; font-weight:bold;">
+                                Proprietor: Rohan K
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let runningTotal = 0.0;
+
+        window.onload = function() {
+            document.getElementById('billDate').value = new Date().toISOString().split('T')[0];
+
+            if(!localStorage.getItem('next_bill_num')) {
+                localStorage.setItem('next_bill_num', '1001');
+            }
+            document.getElementById('billNo').value = localStorage.getItem('next_bill_num');
+            
+            // Start with one clean empty item row
+            addDynamicRow();
+            updateLivePreview();
+        };
+
+        // Create dynamic item table rows smoothly
+        function addDynamicRow() {
+            const container = document.getElementById('dynamic-items-container');
+            const div = document.createElement('div');
+            div.className = 'dynamic-item-row';
+            div.innerHTML = `
+                <input type="text" class="item-desc" placeholder="Item description..." oninput="updateLivePreview()">
+                <input type="number" class="item-qty" value="1" step="0.1" oninput="updateLivePreview()">
+                <input type="number" class="item-rate" value="0" step="5" oninput="updateLivePreview()">
+                <button type="button" class="btn-danger" onclick="this.parentElement.remove(); updateLivePreview();">🗑️</button>
+            `;
+            container.appendChild(div);
+        }
+
+        // Translates numbers to standard Indian currency word formatting text strings
+        function amountToWordsINR(amount) {
+            const th = ['', 'Thousand', 'Lakh', 'Crore'];
+            const dg = ['Zero', 'One', 'Two', 'Three', 'Four', 'Five', 'Six', 'Seven', 'Eight', 'Nine'];
+            const tn = ['Ten', 'Eleven', 'Twelve', 'Thirteen', 'Fourteen', 'Fifteen', 'Sixteen', 'Seventeen', 'Eighteen', 'Nineteen'];
+            const tw = ['Twenty', 'Thirty', 'Forty', 'Fifty', 'Sixty', 'Seventy', 'Eighty', 'Ninety'];
+
+            let num = Math.floor(amount);
+            if (num === 0) return "Rs. Zero Only";
+
+            function toWords(n) {
+                let output = '';
+                if (n >= 100) {
+                    output += dg[Math.floor(n / 100)] + ' Hundred ';
+                    n %= 100;
+                }
+                if (n >= 20) {
+                    output += tw[Math.floor(n / 10) - 2] + ' ';
+                    n %= 10;
+                } else if (n >= 10) {
+                    output += tn[n - 10] + ' ';
+                    return output;
+                }
+                if (n > 0) { output += dg[n] + ' '; }
+                return output;
+            }
+
+            let str = '';
+            let remainder = num;
+            if (remainder >= 10000000) { str += toWords(Math.floor(remainder / 10000000)) + 'Crore '; remainder %= 10000000; }
+            if (remainder >= 100000) { str += toWords(Math.floor(remainder / 100000)) + 'Lakh '; remainder %= 100000; }
+            if (remainder >= 1000) { str += toWords(Math.floor(remainder / 1000)) + 'Thousand '; remainder %= 1000; }
+            if (remainder > 0) { str += toWords(remainder); }
+
+            return "Rs. " + str.trim().replace(/\s+/g, ' ') + " Only";
+        }
+
+        // Monitors, calculates, and mirrors data seamlessly over to target blueprint sections
+        function updateLivePreview() {
+            runningTotal = 0.0;
+            const rows = document.querySelectorAll('.dynamic-item-row');
+            const items = [];
+
+            rows.forEach((row, index) => {
+                const desc = row.querySelector('.item-desc').value.trim();
+                const qty = parseFloat(row.querySelector('.item-qty').value) || 0;
+                const rate = parseFloat(row.querySelector('.item-rate').value) || 0;
+                const amt = qty * rate;
+                
+                if(desc || qty > 0 || rate > 0) {
+                    runningTotal += amt;
+                    items.push({ desc: desc || '---', qty, rate, amt });
+                }
+            });
+
+            // Update Input Summary Panel UI Content
+            document.getElementById('totalPreview').innerHTML = `<b>Total Invoice Value:</b> ₹${runningTotal.toLocaleString('en-IN', {minimumFractionDigits: 2})} <br><small style="color:var(--muted)">${amountToWordsINR(runningTotal)}</small>`;
+            
+            // Map directly onto the Printable Live Canvas Wrapper Layout
+            document.getElementById('pdfBillNo').innerText = `Bill of Supply No.: ${document.getElementById('billNo').value}`;
+            
+            const dateParts = document.getElementById('billDate').value.split('-');
+            document.getElementById('pdfDate').innerText = `Date: ${dateParts.length === 3 ? `${dateParts[2]}/${dateParts[1]}/${dateParts[0]}` : ''}`;
+            
+            document.getElementById('pdfName').innerText = `Name: ${document.getElementById('custName').value}`;
+            document.getElementById('pdfAddr').innerText = `Address: ${document.getElementById('custAddress').value}`;
+            document.getElementById('pdfAmountWords').innerText = `Rs. in Words: ${amountToWordsINR(runningTotal)}`;
+            document.getElementById('pdfTotalAmount').innerText = runningTotal.toLocaleString('en-IN', {minimumFractionDigits: 2});
+
+            // Render matching table arrays (Keeps 13 fixed slot spaces on clean printable format layout grid)
+            let rowsHtml = '';
+            for(let i = 0; i < 13; i++) {
+                if(i < items.length) {
+                    rowsHtml += `
+                        <tr>
+                            <td class="text-center">${i + 1}</td>
+                            <td>${items[i].desc}</td>
+                            <td></td>
+                            <td class="text-center">${items[i].qty}</td>
+                            <td class="text-center">${items[i].rate}</td>
+                            <td class="text-right">${items[i].amt.toFixed(2)}</td>
+                        </tr>`;
+                } else {
+                    rowsHtml += `<tr class="item-empty-row"><td></td><td></td><td></td><td></td><td></td><td></td></tr>`;
+                }
+            }
+            document.getElementById('pdfItemRows').innerHTML = rowsHtml;
+        }
+
+        function processInvoice() {
+            const billNo = document.getElementById('billNo').value;
+            const custName = document.getElementById('custName').value.trim();
+            const rows = document.querySelectorAll('.dynamic-item-row');
+
+            if(!custName || rows.length === 0 || runningTotal === 0) {
+                alert("Please add a Customer Name and at least one valid item entry.");
+                return;
+            }
+
+            const element = document.getElementById('print-node');
+            const options = {
+                margin:       [10, 10, 10, 10],
+                filename:     `Invoice_${billNo}.pdf`,
+                image:        { type: 'jpeg', quality: 0.98 },
+                html2canvas:  { scale: 2, useCORS: true },
+                jsPDF:        { unit: 'mm', format: 'a4', orientation: 'portrait' }
+            };
+
+            html2pdf().set(options).from(element).save().then(() => {
+                if(!isNaN(billNo)) {
+                    localStorage.setItem('next_bill_num', parseInt(billNo) + 1);
+                    document.getElementById('billNo').value = localStorage.setItem('next_bill_num');
+                    updateLivePreview();
+                }
+            });
+        }
+    </script>
+</body>
+</html>
