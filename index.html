@@ -3,9 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>The Cake House Terminal Pro</title>
-    <meta property="og:title" content="The Cake House Terminal Pro" />
-    <meta property="og:description" content="Advanced Billing System for The Cake House" />
+    <title>The Cake House Terminal Mobile</title>
+    <meta property="og:title" content="The Cake House Terminal Mobile" />
+    <meta property="og:description" content="Mobile Optimized Billing System for The Cake House" />
     <meta property="og:type" content="website" />
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
     <style>
@@ -19,67 +19,56 @@
             --muted: #64748B;
         }
 
+        * {
+            box-sizing: border-box;
+        }
+
         body {
-            font-family: 'Segoe UI', system-ui, sans-serif;
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
             background-color: var(--bg);
             color: var(--text);
             margin: 0;
             padding: 0;
             display: flex;
-            height: 100vh;
-            overflow: hidden;
+            flex-direction: column;
+            min-height: 100vh;
         }
 
-        /* Split-Screen Workspace Architecture */
-        .workspace {
-            display: flex;
+        /* Mobile Container Setup */
+        .mobile-container {
             width: 100%;
-            height: 100%;
-        }
-
-        .input-panel {
-            flex: 1.2;
-            padding: 40px;
-            overflow-y: auto;
-            border-right: 1px solid var(--border);
-            background: var(--card-bg);
-        }
-
-        .preview-panel {
-            flex: 1;
-            padding: 40px;
-            background: #E2E8F0;
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 16px 16px 180px 16px; /* Room at bottom for sticky action sheet */
             display: flex;
             flex-direction: column;
-            align-items: center;
-            overflow-y: auto;
         }
 
         h1 {
-            font-size: 24px;
+            font-size: 20px;
             font-weight: 700;
             color: var(--text);
-            margin-top: 0;
-            margin-bottom: 30px;
+            margin: 10px 0 20px 0;
             display: flex;
             align-items: center;
-            gap: 10px;
+            gap: 8px;
         }
 
         .section-title {
-            font-size: 14px;
+            font-size: 12px;
             text-transform: uppercase;
             letter-spacing: 0.05em;
             color: var(--muted);
-            margin: 25px 0 15px 0;
+            margin: 15px 0 12px 0;
             border-bottom: 1px solid var(--border);
-            padding-bottom: 5px;
+            padding-bottom: 4px;
+            font-weight: 700;
         }
 
         .row {
             display: flex;
-            gap: 16px;
-            margin-bottom: 16px;
+            gap: 12px;
+            margin-bottom: 12px;
         }
 
         .col {
@@ -90,44 +79,47 @@
 
         label {
             font-weight: 600;
-            margin-bottom: 6px;
-            font-size: 13px;
+            margin-bottom: 4px;
+            font-size: 12px;
             color: #475569;
         }
 
         input {
-            padding: 10px 14px;
+            padding: 12px; /* Large touch target */
             border: 1px solid var(--border);
-            border-radius: 6px;
+            border-radius: 8px;
             font-size: 14px;
             transition: all 0.2s ease;
             background: #FFF;
+            width: 100%;
+            -webkit-appearance: none;
         }
 
         input:focus {
             outline: none;
             border-color: var(--primary);
-            box-shadow: 0 0 0 3px rgba(190, 18, 60, 0.15);
+            box-shadow: 0 0 0 3px rgba(190, 18, 60, 0.1);
         }
 
-        /* Dynamic Grid Layout */
-        .item-grid-header {
-            display: grid;
-            grid-template-columns: 3.5fr 1fr 1.2fr 0.5fr;
-            gap: 12px;
-            margin-bottom: 8px;
-            font-size: 13px;
-            font-weight: 600;
-            color: var(--muted);
-        }
-
+        /* Responsive Mobile Dynamic Table Rows */
         .dynamic-item-row {
-            display: grid;
-            grid-template-columns: 3.5fr 1fr 1.2fr 0.5fr;
-            gap: 12px;
-            align-items: center;
-            margin-bottom: 10px;
+            display: flex;
+            flex-direction: column;
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 12px;
+            margin-bottom: 12px;
+            gap: 10px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.02);
             animation: fadeIn 0.2s ease-in-out;
+        }
+
+        .item-inputs-subgrid {
+            display: grid;
+            grid-template-columns: 1fr 1.2fr auto;
+            gap: 10px;
+            align-items: end;
         }
 
         @keyframes fadeIn {
@@ -139,14 +131,18 @@
             background: #F1F5F9;
             color: #334155;
             border: 1px solid var(--border);
-            padding: 10px;
+            padding: 12px;
             font-weight: 600;
-            font-size: 13px;
-            border-radius: 6px;
+            font-size: 14px;
+            border-radius: 8px;
             cursor: pointer;
-            width: max-content;
+            width: 100%;
             margin-top: 5px;
             transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
         }
 
         .btn-secondary:hover {
@@ -154,63 +150,66 @@
         }
 
         .btn-danger {
-            background: none;
+            background: #FEE2E2;
             border: none;
             color: #EF4444;
             cursor: pointer;
             font-size: 16px;
-            padding: 8px;
-            border-radius: 4px;
+            height: 45px;
+            width: 45px;
+            border-radius: 8px;
             display: flex;
             align-items: center;
             justify-content: center;
         }
 
-        .btn-danger:hover {
-            background: #FEE2E2;
+        /* Persistent Floating Dashboard Sheet at Mobile Viewport Base */
+        .mobile-sticky-footer {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: #FFFFFF;
+            border-top: 1px solid var(--border);
+            padding: 16px;
+            box-shadow: 0 -10px 15px -3px rgba(0, 0, 0, 0.05);
+            z-index: 100;
+            max-width: 600px;
+            margin: 0 auto;
         }
 
         .sticky-summary {
             background: #FFF1F2;
             border: 1px solid #FFE4E6;
-            padding: 20px;
+            padding: 12px;
             border-radius: 8px;
-            margin: 30px 0;
+            margin-bottom: 12px;
         }
 
         .action-button {
             background-color: var(--primary);
             color: white;
             border: none;
-            padding: 14px;
+            padding: 16px;
             font-size: 16px;
             font-weight: 600;
-            border-radius: 6px;
+            border-radius: 8px;
             cursor: pointer;
             width: 100%;
             transition: background 0.2s;
-            box-shadow: 0 4px 6px -1px rgba(190, 18, 60, 0.2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
         }
 
         .action-button:hover {
             background-color: var(--primary-hover);
         }
 
-        /* --- PREVIEW AND PRINT SPECIFIC STYLING --- */
-        .preview-label {
-            align-self: flex-start;
-            font-weight: bold;
-            color: #475569;
-            margin-bottom: 10px;
-            font-size: 14px;
-            text-transform: uppercase;
-        }
-
-        #invoice-wrapper {
-            background: white;
-            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
-            transform: scale(0.9);
-            transform-origin: top center;
+        /* --- PRINT AREA CANVAS (Kept perfectly isolated out of view from UI screens) --- */
+        #invoice-template-hidden {
+            display: none;
         }
 
         .print-area {
@@ -218,7 +217,7 @@
             font-family: Arial, sans-serif;
             color: #000;
             background: #fff;
-            padding: 20px;
+            padding: 15px;
             box-sizing: border-box;
         }
 
@@ -257,143 +256,129 @@
 </head>
 <body>
 
-    <div class="workspace">
-        <!-- Interactive Input Panel -->
-        <div class="input-panel">
-            <h1>🎂 The Cake House Terminal Pro</h1>
-            
-            <div class="section-title">Invoice Meta Details</div>
-            <div class="row">
-                <div class="col">
-                    <label>Bill No.</label>
-                    <input type="text" id="billNo" oninput="updateLivePreview()">
-                </div>
-                <div class="col">
-                    <label>Date</label>
-                    <input type="date" id="billDate" oninput="updateLivePreview()">
-                </div>
+    <div class="mobile-container">
+        <h1>🎂 The Cake House Terminal</h1>
+        
+        <div class="section-title">Invoice Information</div>
+        <div class="row">
+            <div class="col">
+                <label>Bill No.</label>
+                <input type="text" id="billNo" oninput="updateCalculations()">
             </div>
-
-            <div class="row">
-                <div class="col">
-                    <label>Customer Name</label>
-                    <input type="text" id="custName" placeholder="Enter name" oninput="updateLivePreview()">
-                </div>
+            <div class="col">
+                <label>Date</label>
+                <input type="date" id="billDate" oninput="updateCalculations()">
             </div>
-            <div class="row">
-                <div class="col">
-                    <label>Customer Address</label>
-                    <input type="text" id="custAddress" placeholder="Enter delivery address" oninput="updateLivePreview()">
-                </div>
-            </div>
-
-            <div class="section-title">Dynamic Line Items</div>
-            <div class="item-grid-header">
-                <div>Description</div>
-                <div>Qty</div>
-                <div>Rate (₹)</div>
-                <div></div>
-            </div>
-            
-            <div id="dynamic-items-container">
-                <!-- Rows injected dynamically via JS initialization below -->
-            </div>
-
-            <button type="button" class="btn-secondary" onclick="addDynamicRow()">➕ Add New Line Item</button>
-
-            <div class="sticky-summary">
-                <div id="totalPreview" style="font-size: 16px; color: var(--text);">
-                    <b>Total Preview:</b> ₹0.00 <br><small style="color: var(--muted)">Rs. Zero Only</small>
-                </div>
-            </div>
-
-            <button class="action-button" onclick="processInvoice()">🚀 Process Invoice & Download PDF</button>
         </div>
 
-        <!-- Real-Time Visual Feedback Side Drawer -->
-        <div class="preview-panel">
-            <div class="preview-label">Live A4 Document Preview</div>
-            <div id="invoice-wrapper">
-                <div class="print-area" id="print-node">
-                    <table class="invoice-table">
-                        <tr>
-                            <td colspan="5" class="text-center" style="border-bottom:none; padding-bottom:2px;">
-                                <span class="header-title">The Cake House</span>
-                            </td>
-                            <td class="text-right" style="border-bottom:none; font-size:10px; vertical-align:top;">
-                                Mob.: 8830002886
-                            </td>
-                        </tr>
-                        <tr>
-                            <td colspan="6" class="text-center" style="border-top:none; border-bottom:none; font-size:12px; padding:2px;">
-                                Kalewadi Main Road, Opp. D-Mart, Near Nadhe Complex, Kalewadi, Pimpri, Pune - 411 017.
-                            </td>
-                        </tr>
-                        <tr>
-                            <td colspan="6" class="text-center" style="border-top:none; font-weight:bold; font-size:12px; padding-top:2px;">
-                                GST No.: NA
-                            </td>
-                        </tr>
-                        <tr>
-                            <td colspan="6" class="text-center bg-gray subtitle" style="padding:5px;">BILL OF SUPPLY</td>
-                        </tr>
-                    </table>
+        <div class="row">
+            <div class="col">
+                <label>Customer Name</label>
+                <input type="text" id="custName" placeholder="Customer name" oninput="updateCalculations()">
+            </div>
+        </div>
+        <div class="row">
+            <div class="col">
+                <label>Customer Address</label>
+                <input type="text" id="custAddress" placeholder="Delivery address" oninput="updateCalculations()">
+            </div>
+        </div>
 
-                    <div class="meta-container">
-                        <div class="meta-box" style="border-right:none;">
-                            Reverse Charge : <br>
-                            <b id="pdfBillNo">Bill of Supply No.: </b><br>
-                            <b id="pdfDate">Date: </b><br>
-                            State : Maharashtra &nbsp;&nbsp;&nbsp;&nbsp;Code : 411017
-                        </div>
-                        <div class="meta-box">
-                            <b>Details of Consignee / Shipped to</b><br>
-                            <b id="pdfName">Name: </b><br>
-                            <span id="pdfAddr">Address: </span><br>
-                            <b>GSTIN: </b>
-                        </div>
-                    </div>
+        <div class="section-title">Line Items</div>
+        <div id="dynamic-items-container">
+            </div>
 
-                    <table class="invoice-table" style="border-top:none;">
-                        <thead class="bg-gray">
-                            <tr>
-                                <th style="width: 8%;">Sr. No.</th>
-                                <th style="width: 48%;">Description</th>
-                                <th style="width: 12%;">HSN ACS</th>
-                                <th style="width: 10%;">Qty./Kg.</th>
-                                <th style="width: 10%;">Rate</th>
-                                <th style="width: 12%;">Amount</th>
-                            </tr>
-                        </thead>
-                        <tbody id="pdfItemRows"></tbody>
-                        <tr>
-                            <td colspan="4" id="pdfAmountWords" style="font-style: italic; font-size:11px;">Rs. in Words: </td>
-                            <td class="text-right" style="font-weight:bold;">TOTAL:</td>
-                            <td class="text-right" id="pdfTotalAmount" style="font-weight:bold;">0.00</td>
-                        </tr>
-                        <tr>
-                            <td colspan="3" style="vertical-align: top; height:45px; font-size: 11px; line-height: 1.4;">
-                                <b>Bank Details:</b><br>
-                                Bank: Bank of Maharashtra<br>
-                                A/c No.: 68022014402<br>
-                                Branch: Pimpri.<br>
-                                IFSC CODE: MAHB0000080
-                            </td>
-                            <td colspan="3" class="text-right" style="vertical-align: top;">
-                                <b>For THE CAKE HOUSE</b>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td colspan="3" class="text-center" style="vertical-align: bottom; height:50px; font-style:italic; font-size:11px;">
-                                Receiver's Signature
-                            </td>
-                            <td colspan="3" class="text-right" style="vertical-align: bottom; font-weight:bold;">
-                                Proprietor: Rohan K
-                            </td>
-                        </tr>
-                    </table>
+        <button type="button" class="btn-secondary" onclick="addDynamicRow()">➕ Add New Line Item</button>
+    </div>
+
+    <div class="mobile-sticky-footer">
+        <div class="sticky-summary">
+            <div id="totalPreview" style="font-size: 14px; color: var(--text); line-height: 1.4;">
+                <b>Total Preview:</b> ₹0.00 <br><span style="color: var(--muted); font-size: 12px; font-style: italic;">Rs. Zero Only</span>
+            </div>
+        </div>
+        <button class="action-button" onclick="processInvoice()">🚀 Process & Download PDF</button>
+    </div>
+
+    <div id="invoice-template-hidden">
+        <div class="print-area" id="print-node">
+            <table class="invoice-table">
+                <tr>
+                    <td colspan="5" class="text-center" style="border-bottom:none; padding-bottom:2px;">
+                        <span class="header-title">The Cake House</span>
+                    </td>
+                    <td class="text-right" style="border-bottom:none; font-size:10px; vertical-align:top;">
+                        Mob.: 8830002886
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="6" class="text-center" style="border-top:none; border-bottom:none; font-size:12px; padding:2px;">
+                        Kalewadi Main Road, Opp. D-Mart, Near Nadhe Complex, Kalewadi, Pimpri, Pune - 411 017.
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="6" class="text-center" style="border-top:none; font-weight:bold; font-size:12px; padding-top:2px;">
+                        GST No.: NA
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="6" class="text-center bg-gray subtitle" style="padding:5px;">BILL OF SUPPLY</td>
+                </tr>
+            </table>
+
+            <div class="meta-container">
+                <div class="meta-box" style="border-right:none;">
+                    Reverse Charge : <br>
+                    <b id="pdfBillNo">Bill of Supply No.: </b><br>
+                    <b id="pdfDate">Date: </b><br>
+                    State : Maharashtra &nbsp;&nbsp;&nbsp;&nbsp;Code : 411017
+                </div>
+                <div class="meta-box">
+                    <b>Details of Consignee / Shipped to</b><br>
+                    <b id="pdfName">Name: </b><br>
+                    <span id="pdfAddr">Address: </span><br>
+                    <b>GSTIN: </b>
                 </div>
             </div>
+
+            <table class="invoice-table" style="border-top:none;">
+                <thead class="bg-gray">
+                    <tr>
+                        <th style="width: 8%;">Sr. No.</th>
+                        <th style="width: 48%;">Description</th>
+                        <th style="width: 12%;">HSN ACS</th>
+                        <th style="width: 10%;">Qty./Kg.</th>
+                        <th style="width: 10%;">Rate</th>
+                        <th style="width: 12%;">Amount</th>
+                    </tr>
+                </thead>
+                <tbody id="pdfItemRows"></tbody>
+                <tr>
+                    <td colspan="4" id="pdfAmountWords" style="font-style: italic; font-size:11px;">Rs. in Words: </td>
+                    <td class="text-right" style="font-weight:bold;">TOTAL:</td>
+                    <td class="text-right" id="pdfTotalAmount" style="font-weight:bold;">0.00</td>
+                </tr>
+                <tr>
+                    <td colspan="3" style="vertical-align: top; height:45px; font-size: 11px; line-height: 1.4;">
+                        <b>Bank Details:</b><br>
+                        Bank: Bank of Maharashtra<br>
+                        A/c No.: 68022014402<br>
+                        Branch: Pimpri.<br>
+                        IFSC CODE: MAHB0000080
+                    </td>
+                    <td colspan="3" class="text-right" style="vertical-align: top;">
+                        <b>For THE CAKE HOUSE</b>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="3" class="text-center" style="vertical-align: bottom; height:50px; font-style:italic; font-size:11px;">
+                        Receiver's Signature
+                    </td>
+                    <td colspan="3" class="text-right" style="vertical-align: bottom; font-weight:bold;">
+                        Proprietor: Rohan K
+                    </td>
+                </tr>
+            </table>
         </div>
     </div>
 
@@ -408,26 +393,35 @@
             }
             document.getElementById('billNo').value = localStorage.getItem('next_bill_num');
             
-            // Start with one clean empty item row
             addDynamicRow();
-            updateLivePreview();
+            updateCalculations();
         };
 
-        // Create dynamic item table rows smoothly
+        // Create touch friendly custom dynamic entry form block arrays
         function addDynamicRow() {
             const container = document.getElementById('dynamic-items-container');
             const div = document.createElement('div');
             div.className = 'dynamic-item-row';
             div.innerHTML = `
-                <input type="text" class="item-desc" placeholder="Item description..." oninput="updateLivePreview()">
-                <input type="number" class="item-qty" value="1" step="0.1" oninput="updateLivePreview()">
-                <input type="number" class="item-rate" value="0" step="5" oninput="updateLivePreview()">
-                <button type="button" class="btn-danger" onclick="this.parentElement.remove(); updateLivePreview();">🗑️</button>
+                <div class="col">
+                    <label>Item Description</label>
+                    <input type="text" class="item-desc" placeholder="Cake item details..." oninput="updateCalculations()">
+                </div>
+                <div class="item-inputs-subgrid">
+                    <div class="col">
+                        <label>Qty / Kg</label>
+                        <input type="number" class="item-qty" value="1" step="0.1" oninput="updateCalculations()">
+                    </div>
+                    <div class="col">
+                        <label>Rate (₹)</label>
+                        <input type="number" class="item-rate" value="0" step="5" oninput="updateCalculations()">
+                    </div>
+                    <button type="button" class="btn-danger" onclick="this.parentElement.parentElement.remove(); updateCalculations();">🗑️</button>
+                </div>
             `;
             container.appendChild(div);
         }
 
-        // Translates numbers to standard Indian currency word formatting text strings
         function amountToWordsINR(amount) {
             const th = ['', 'Thousand', 'Lakh', 'Crore'];
             const dg = ['Zero', 'One', 'Two', 'Three', 'Four', 'Five', 'Six', 'Seven', 'Eight', 'Nine'];
@@ -464,13 +458,13 @@
             return "Rs. " + str.trim().replace(/\s+/g, ' ') + " Only";
         }
 
-        // Monitors, calculates, and mirrors data seamlessly over to target blueprint sections
-        function updateLivePreview() {
+        // Processes and aggregates running calculations over onto the isolated generation viewport template
+        function updateCalculations() {
             runningTotal = 0.0;
             const rows = document.querySelectorAll('.dynamic-item-row');
             const items = [];
 
-            rows.forEach((row, index) => {
+            rows.forEach(row => {
                 const desc = row.querySelector('.item-desc').value.trim();
                 const qty = parseFloat(row.querySelector('.item-qty').value) || 0;
                 const rate = parseFloat(row.querySelector('.item-rate').value) || 0;
@@ -482,10 +476,10 @@
                 }
             });
 
-            // Update Input Summary Panel UI Content
-            document.getElementById('totalPreview').innerHTML = `<b>Total Invoice Value:</b> ₹${runningTotal.toLocaleString('en-IN', {minimumFractionDigits: 2})} <br><small style="color:var(--muted)">${amountToWordsINR(runningTotal)}</small>`;
+            // Update bottom sticky panel array viewports
+            document.getElementById('totalPreview').innerHTML = `<b>Total Invoice Value:</b> ₹${runningTotal.toLocaleString('en-IN', {minimumFractionDigits: 2})} <br><span style="color:var(--muted); font-size: 12px; font-style: italic;">${amountToWordsINR(runningTotal)}</span>`;
             
-            // Map directly onto the Printable Live Canvas Wrapper Layout
+            // Map values directly to hidden layout structural items
             document.getElementById('pdfBillNo').innerText = `Bill of Supply No.: ${document.getElementById('billNo').value}`;
             
             const dateParts = document.getElementById('billDate').value.split('-');
@@ -496,7 +490,7 @@
             document.getElementById('pdfAmountWords').innerText = `Rs. in Words: ${amountToWordsINR(runningTotal)}`;
             document.getElementById('pdfTotalAmount').innerText = runningTotal.toLocaleString('en-IN', {minimumFractionDigits: 2});
 
-            // Render matching table arrays (Keeps 13 fixed slot spaces on clean printable format layout grid)
+            // Regenerate table array mappings safely inside isolated frame layout structures
             let rowsHtml = '';
             for(let i = 0; i < 13; i++) {
                 if(i < items.length) {
@@ -538,8 +532,8 @@
             html2pdf().set(options).from(element).save().then(() => {
                 if(!isNaN(billNo)) {
                     localStorage.setItem('next_bill_num', parseInt(billNo) + 1);
-                    document.getElementById('billNo').value = localStorage.setItem('next_bill_num');
-                    updateLivePreview();
+                    document.getElementById('billNo').value = localStorage.getItem('next_bill_num');
+                    updateCalculations();
                 }
             });
         }
