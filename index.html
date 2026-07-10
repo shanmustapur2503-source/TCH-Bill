@@ -227,11 +227,11 @@
         }
 
         .print-area {
-            width: 790px; /* Optimal standard rendering viewport width for explicit A4 mapping scale */
+            width: 750px; /* Refined to map gracefully to standard A4 printable widths */
             font-family: Arial, sans-serif;
             color: #000;
             background: #fff;
-            padding: 20px;
+            padding: 0;
             box-sizing: border-box;
         }
 
@@ -536,7 +536,7 @@
             const element = document.getElementById('print-node');
             
             const options = {
-                margin:       [10, 10, 10, 10], // Added balanced margins directly into standard output options instead
+                margin:       [12, 12, 12, 12], // Configured margins directly here to create clean framing inside standard A4 output
                 filename:     `Invoice_${billNo}.pdf`,
                 image:        { type: 'jpeg', quality: 0.98 },
                 html2canvas:  { scale: 2, useCORS: true, logging: false },
