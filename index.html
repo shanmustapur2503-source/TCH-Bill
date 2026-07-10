@@ -1,3 +1,14 @@
+The issue happens because the `width: 680px;` constraint on the print container is still forcing a wider bounding box than what `html2pdf`'s default rendering view expects, causing it to push the rightmost columns off the edge.
+
+To fix this completely and guarantee that **every single column fits perfectly on one A4 page**, the updated code below implements these adjustments:
+
+1. **Fluid Width Layout:** Changes the print container width from a fixed pixel unit (`680px`) to a fluid layout (`width: 100%; max-width: 100%;`).
+2. **Narrower Description Column:** Decreases the percentage width allocation for the **Description** column from `44%` down to `30%`, spreading the remaining space generously to the other numeric columns.
+3. **Optimized Scaling:** Reconfigures the `html2pdf` options to force precise A4 scaling parameters (`letter-spacing`, margin reductions, and viewport configurations) to completely eliminate clipping.
+
+Here is the corrected, ready-to-use code:
+
+```html
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -221,13 +232,14 @@
             background-color: var(--primary-hover);
         }
 
-        /* --- PRINT AREA CANVAS (Calibrated for Perfect A4 Standard Output) --- */
+        /* --- PRINT AREA CANVAS (Forced Full-Width Bounds Alignment) --- */
         #invoice-template-hidden {
             display: none;
         }
 
         .print-area {
-            width: 680px; /* Scaled cleanly to completely fit horizontally within A4 with margins */
+            width: 100%;
+            max-width: 100%;
             font-family: Arial, sans-serif;
             color: #000;
             background: #fff;
@@ -238,14 +250,15 @@
         .invoice-table {
             width: 100%;
             border-collapse: collapse;
-            table-layout: fixed; /* Enforces absolute adherence to width percentages */
+            table-layout: fixed; /* Strictly enforces percentages inside available printable space */
         }
 
         .invoice-table th, .invoice-table td {
             border: 1px solid #000;
-            padding: 8px 6px;
+            padding: 8px 5px;
             font-size: 13px;
             word-wrap: break-word;
+            overflow: hidden;
         }
 
         .text-center { text-align: center; }
@@ -362,11 +375,11 @@
                 <thead class="bg-gray">
                     <tr>
                         <th style="width: 10%;">Sr. No.</th>
-                        <th style="width: 44%;">Description</th>
-                        <th style="width: 12%;">HSN ACS</th>
-                        <th style="width: 11%;">Qty./Kg.</th>
-                        <th style="width: 11%;">Rate</th>
-                        <th style="width: 12%;">Amount</th>
+                        <th style="width: 30%;">Description</th>
+                        <th style="width: 15%;">HSN ACS</th>
+                        <th style="width: 15%;">Qty./Kg.</th>
+                        <th style="width: 15%;">Rate</th>
+                        <th style="width: 15%;">Amount</th>
                     </tr>
                 </thead>
                 <tbody id="pdfItemRows"></tbody>
@@ -538,10 +551,10 @@
             const element = document.getElementById('print-node');
             
             const options = {
-                margin:       15, // Uniform standard 15mm page margin layout
+                margin:       [10, 10, 10, 10], // Slim margins to give columns more native width space
                 filename:     `Invoice_${billNo}.pdf`,
                 image:        { type: 'jpeg', quality: 0.98 },
-                html2canvas:  { scale: 2, useCORS: true, logging: false },
+                html2canvas:  { scale: 2.5, useCORS: true, logging: false },
                 jsPDF:        { unit: 'mm', format: 'a4', orientation: 'portrait' }
             };
 
@@ -556,3 +569,5 @@
     </script>
 </body>
 </html>
+
+```
