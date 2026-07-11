@@ -173,29 +173,27 @@
         }
 
         .master-billing-grid {
-            width: 100%;
-            border-collapse: collapse;
-            table-layout: fixed;
+            width: 100% !important;
+            border-collapse: collapse !important;
+            table-layout: fixed !important;
         }
 
         .master-billing-grid td, .master-billing-grid th {
-            border: 1px solid #000000;
-            padding: 6px 8px;
-            font-family: Arial, sans-serif;
-            font-size: 13px;
-            color: #000000;
-            word-wrap: break-word;
-            vertical-align: top;
+            border: 1px solid #000000 !important;
+            padding: 6px 8px !important;
+            font-family: Arial, sans-serif !important;
+            font-size: 13px !important;
+            color: #000000 !important;
+            word-wrap: break-word !important;
+            vertical-align: top !important;
         }
 
-        .text-center { text-align: center; }
-        .text-right { text-align: right; }
-        .bg-gray { background-color: #F2F2F2; }
+        .text-center { text-align: center !important; }
+        .text-right { text-align: right !important; }
+        .bg-gray { background-color: #F2F2F2 !important; }
         
-        .main-brand-title { font-size: 26px; font-weight: bold; font-family: Arial, sans-serif; }
-        .doc-subtitle-bar { font-size: 14px; font-weight: bold; letter-spacing: 1px; padding: 6px !important; }
-        
-        .item-empty-row td { height: 28px; border-bottom: 1px solid #000; }
+        .main-brand-title { font-size: 26px !important; font-weight: bold !important; font-family: Arial, sans-serif !important; }
+        .doc-subtitle-bar { font-size: 14px !important; font-weight: bold !important; letter-spacing: 1px !important; padding: 6px !important; }
     </style>
 </head>
 <body>
@@ -247,7 +245,7 @@
         <div class="print-area" id="print-node">
             <table class="master-billing-grid">
                 <tr>
-                    <td colspan="5" style="border-bottom: none; padding-top: 10px; position: relative;">
+                    <td colspan="5" style="border-bottom: none !important; padding-top: 10px !important; position: relative;">
                         <div style="text-align: center; width: 100%; font-weight: bold;">
                             <span class="main-brand-title">The Cake House</span>
                         </div>
@@ -257,12 +255,12 @@
                     </td>
                 </tr>
                 <tr>
-                    <td colspan="5" class="text-center" style="border-top: none; border-bottom: none; font-size: 12px; padding: 3px;">
+                    <td colspan="5" class="text-center" style="border-top: none !important; border-bottom: none !important; font-size: 12px !important; padding: 3px !important;">
                         Kalewadi Main Road, Opp. D-Mart, Near Nadhe Complex, Kalewadi, Pimpri, Pune - 411 017.
                     </td>
                 </tr>
                 <tr>
-                    <td colspan="5" class="text-center" style="border-top: none; font-weight: bold; font-size: 13px; padding-bottom: 10px;">
+                    <td colspan="5" class="text-center" style="border-top: none !important; font-weight: bold; font-size: 13px !important; padding-bottom: 10px !important;">
                         GST No.: NA
                     </td>
                 </tr>
@@ -272,16 +270,16 @@
                 </tr>
 
                 <tr>
-                    <td colspan="2" style="width: 50%; line-height: 1.5; border-bottom: 2px solid #000;">
+                    <td colspan="2" style="width: 70%; line-height: 1.5; border-bottom: 2px solid #000 !important;">
                         Reverse Charge :<br>
                         <b id="pdfBillNo">Bill of Supply No.: 6</b><br>
                         <b id="pdfDate">Date: 09/07/2026</b><br>
                         State : Maharashtra &nbsp;&nbsp;&nbsp;&nbsp; Code : 411017
                     </td>
-                    <td colspan="3" style="width: 50%; line-height: 1.5; border-bottom: 2px solid #000;">
+                    <td colspan="3" style="width: 30%; line-height: 1.5; border-bottom: 2px solid #000 !important;">
                         <b>Details of Consignee / Shipped to</b><br>
-                        <span id="pdfName">Name: dfsd</span><br>
-                        <span id="pdfAddr">Address: dsfsdf</span><br>
+                        <span id="pdfName">Name: </span><br>
+                        <span id="pdfAddr">Address: </span><br>
                         <b>GSTIN:</b>
                     </td>
                 </tr>
@@ -297,30 +295,30 @@
                 <tbody id="pdfItemRows"></tbody>
 
                 <tr>
-                    <td colspan="3" id="pdfAmountWords" style="font-style: italic; font-weight: bold; vertical-align: middle; font-size: 11px;">
+                    <td colspan="3" id="pdfAmountWords" style="width: 70%; font-style: italic; font-weight: bold; vertical-align: middle; font-size: 11px !important;">
                         Rs. in Words: Rs. Zero Only
                     </td>
-                    <td class="text-center bg-gray" style="font-weight: bold; vertical-align: middle;">TOTAL:</td>
-                    <td class="text-right" id="pdfTotalAmount" style="font-weight: bold; vertical-align: middle;">0.00</td>
+                    <td class="text-center bg-gray" style="width: 10%; font-weight: bold; vertical-align: middle !important;">TOTAL:</td>
+                    <td class="text-right" id="pdfTotalAmount" style="width: 10%; font-weight: bold; vertical-align: middle !important;">0.00</td>
                 </tr>
 
                 <tr>
-                    <td colspan="2" style="line-height: 1.4; border-bottom: 1px solid #000000; font-size: 12px; padding: 8px;">
+                    <td colspan="2" style="width: 70%; line-height: 1.4; border-bottom: 1px solid #000000 !important; font-size: 12px !important; padding: 8px !important;">
                         <b>Bank Details:</b><br>
                         Bank: Bank of Maharashtra<br>
                         A/c No.: 68022014402<br>
                         Branch: Pimpri.<br>
                         IFSC CODE: MAHB0000080
                     </td>
-                    <td colspan="3" class="text-right" style="border-bottom: 1px solid #000000; font-weight: bold; padding-top: 8px; font-size: 12px;">
+                    <td colspan="3" class="text-right" style="width: 30%; border-bottom: 1px solid #000000 !important; font-weight: bold; padding-top: 8px !important; font-size: 12px !important;">
                         For THE CAKE HOUSE
                     </td>
                 </tr>
                 <tr>
-                    <td colspan="2" class="text-center" style="border-top: none; vertical-align: bottom; height: 55px; font-style: italic; font-size: 12px; padding-bottom: 5px;">
+                    <td colspan="2" class="text-center" style="border-top: none !important; vertical-align: bottom; height: 55px !important; font-style: italic; font-size: 12px !important; padding-bottom: 5px !important;">
                         Receiver's Signature
                     </td>
-                    <td colspan="3" class="text-right" style="border-top: none; vertical-align: bottom; font-weight: bold; font-size: 12px; padding-bottom: 5px;">
+                    <td colspan="3" class="text-right" style="border-top: none !important; vertical-align: bottom; font-weight: bold; font-size: 12px !important; padding-bottom: 5px !important;">
                         Proprietor: Rohan K
                     </td>
                 </tr>
@@ -440,14 +438,21 @@
                 if(i < items.length) {
                     rowsHtml += `
                         <tr>
-                            <td class="text-center">${i + 1}</td>
-                            <td style="text-align: left;">${items[i].desc}</td>
-                            <td class="text-center">${items[i].qty}</td>
-                            <td class="text-center">${items[i].rate}</td>
-                            <td class="text-right">${items[i].amt.toFixed(2)}</td>
+                            <td class="text-center" style="width: 5%;">${i + 1}</td>
+                            <td style="text-align: left; width: 65%;">${items[i].desc}</td>
+                            <td class="text-center" style="width: 10%;">${items[i].qty}</td>
+                            <td class="text-center" style="width: 10%;">${items[i].rate}</td>
+                            <td class="text-right" style="width: 10%;">${items[i].amt.toFixed(2)}</td>
                         </tr>`;
                 } else {
-                    rowsHtml += `<tr class="item-empty-row"><td></td><td></td><td></td><td></td><td></td></tr>`;
+                    rowsHtml += `
+                        <tr style="height: 28px !important;">
+                            <td style="width: 5%; text-align: center;"></td>
+                            <td style="width: 65%; text-align: left;"></td>
+                            <td style="width: 10%; text-align: center;"></td>
+                            <td style="width: 10%; text-align: center;"></td>
+                            <td style="width: 10%; text-align: right;"></td>
+                        </tr>`;
                 }
             }
             document.getElementById('pdfItemRows').innerHTML = rowsHtml;
