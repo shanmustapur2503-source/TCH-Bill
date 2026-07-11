@@ -1,12 +1,3 @@
-The issue happens because the `width: 680px;` constraint on the print container is still forcing a wider bounding box than what `html2pdf`'s default rendering view expects, causing it to push the rightmost columns off the edge.
-
-To fix this completely and guarantee that **every single column fits perfectly on one A4 page**, the updated code below implements these adjustments:
-
-1. **Fluid Width Layout:** Changes the print container width from a fixed pixel unit (`680px`) to a fluid layout (`width: 100%; max-width: 100%;`).
-2. **Narrower Description Column:** Decreases the percentage width allocation for the **Description** column from `44%` down to `30%`, spreading the remaining space generously to the other numeric columns.
-3. **Optimized Scaling:** Reconfigures the `html2pdf` options to force precise A4 scaling parameters (`letter-spacing`, margin reductions, and viewport configurations) to completely eliminate clipping.
-
-Here is the corrected, ready-to-use code:
 
 ```html
 <!DOCTYPE html>
