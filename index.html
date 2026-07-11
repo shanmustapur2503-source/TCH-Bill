@@ -1,4 +1,3 @@
-```html
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -243,11 +242,9 @@
         <button class="action-button" onclick="processInvoice()">🚀 Download Perfect PDF</button>
     </div>
 
-    <!-- ================= MASTER TEMPLATE FOR HTML2PDF ================= -->
     <div id="invoice-template-hidden">
         <div class="print-area" id="print-node">
             <table class="master-billing-grid">
-                <!-- HEADER AREA -->
                 <tr>
                     <td colspan="5" style="border-bottom: none; padding-top: 10px; position: relative;">
                         <div style="text-align: center; width: 100%; font-weight: bold;">
@@ -269,12 +266,10 @@
                     </td>
                 </tr>
                 
-                <!-- TITLE BAR -->
                 <tr>
                     <td colspan="5" class="text-center bg-gray doc-subtitle-bar">BILL OF SUPPLY</td>
                 </tr>
 
-                <!-- PARTY DETAILS SECTION -->
                 <tr>
                     <td colspan="2" style="width: 50%; line-height: 1.5; border-bottom: 2px solid #000;">
                         Reverse Charge :<br>
@@ -290,19 +285,16 @@
                     </td>
                 </tr>
 
-                <!-- TABLE COLUMNS -->
                 <tr class="bg-gray" style="font-weight: bold; text-align: center;">
-                    <td style="width: 5%; text-align: center;">Sr. No.</td>
-                    <td style="width: 65%; text-align: left;">Description</td>
-                    <td style="width: 10%; text-align: center;">Qty./Kg.</td>
-                    <td style="width: 10%; text-align: center;">Rate</td>
-                    <td style="width: 10%; text-align: right;">Amount</td>
+                    <td style="width: 5%; text-align: center; padding: 6px 2px;">Sr. No.</td>
+                    <td style="width: 65%; text-align: left; padding: 6px 8px;">Description</td>
+                    <td style="width: 10%; text-align: center; padding: 6px 2px;">Qty./Kg.</td>
+                    <td style="width: 10%; text-align: center; padding: 6px 2px;">Rate</td>
+                    <td style="width: 10%; text-align: right; padding: 6px 8px;">Amount</td>
                 </tr>
 
-                <!-- DYNAMIC ENTRY ROWS GENERATED HERE -->
                 <tbody id="pdfItemRows"></tbody>
 
-                <!-- TOTAL VALUE FOOTER ROW -->
                 <tr>
                     <td colspan="3" id="pdfAmountWords" style="font-style: italic; font-weight: bold; vertical-align: middle; font-size: 11px;">
                         Rs. in Words: Rs. Zero Only
@@ -311,7 +303,6 @@
                     <td class="text-right" id="pdfTotalAmount" style="font-weight: bold; vertical-align: middle;">0.00</td>
                 </tr>
 
-                <!-- BANK ACCOUNT MATRICES -->
                 <tr>
                     <td colspan="2" style="line-height: 1.4; border-bottom: 1px solid #000000; font-size: 12px; padding: 8px;">
                         <b>Bank Details:</b><br>
@@ -490,5 +481,3 @@
     </script>
 </body>
 </html>
-
-```
