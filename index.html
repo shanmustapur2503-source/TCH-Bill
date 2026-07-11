@@ -1,4 +1,3 @@
-```html
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -162,7 +161,7 @@
             position: absolute;
             left: -9999px;
             top: 0;
-            width: 794px; /* Pure A4 Portrait Reference */
+            width: 794px;
         }
 
         .print-area {
@@ -172,7 +171,6 @@
             box-sizing: border-box;
         }
 
-        /* Unified Table System matching image boundaries precisely */
         .master-billing-grid {
             width: 100%;
             border-collapse: collapse;
@@ -250,11 +248,13 @@
             <table class="master-billing-grid">
                 <!-- HEADER AREA -->
                 <tr>
-                    <td colspan="5" class="text-center" style="border-bottom: none; border-right: none; padding-top: 10px;">
-                        <span class="main-brand-title">The Cake House</span>
-                    </td>
-                    <td class="text-right" style="border-bottom: none; border-left: none; font-size: 11px; padding-top: 10px; font-weight: bold; width: 16%;">
-                        Mob.: 8830002886
+                    <td colspan="6" style="border-bottom: none; padding-top: 10px; position: relative;">
+                        <div style="text-align: center; width: 100%; font-weight: bold;">
+                            <span class="main-brand-title">The Cake House</span>
+                        </div>
+                        <div style="position: absolute; right: 8px; top: 12px; font-size: 11px; font-weight: bold;">
+                            Mob.: 8830002886
+                        </div>
                     </td>
                 </tr>
                 <tr>
@@ -313,14 +313,14 @@
 
                 <!-- BANK ACCOUNT MATRICES -->
                 <tr>
-                    <td colspan="3" style="line-height: 1.4; border-bottom: none; font-size: 12px; padding: 8px;">
+                    <td colspan="3" style="line-height: 1.4; border-bottom: 1px solid #000000; font-size: 12px; padding: 8px;">
                         <b>Bank Details:</b><br>
                         Bank: Bank of Maharashtra<br>
                         A/c No.: 68022014402<br>
                         Branch: Pimpri.<br>
                         IFSC CODE: MAHB0000080
                     </td>
-                    <td colspan="3" class="text-right" style="border-bottom: none; font-weight: bold; padding-top: 8px; font-size: 12px;">
+                    <td colspan="3" class="text-right" style="border-bottom: 1px solid #000000; font-weight: bold; padding-top: 8px; font-size: 12px;">
                         For THE CAKE HOUSE
                     </td>
                 </tr>
@@ -444,7 +444,6 @@
             document.getElementById('pdfTotalAmount').innerText = formattedTotal;
 
             let rowsHtml = '';
-            // Table items set to exactly 14 standard slots to fully stretch clean layout sheet like image
             for(let i = 0; i < 14; i++) {
                 if(i < items.length) {
                     rowsHtml += `
@@ -492,5 +491,3 @@
     </script>
 </body>
 </html>
-
-```
